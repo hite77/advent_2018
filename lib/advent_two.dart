@@ -24,3 +24,45 @@ findChecksum(String labels) {
 
   return countOfTwo*countOfThree;
 }
+
+findCommonLetters(String labels) {
+  List<String> boxes= new List();
+  for(var label in labels.split('\n')) {
+    boxes.add(label);
+  }
+  int box1 = 0;
+  int box2 = 1;
+  while (box1 < boxes.length) {
+    while (box2 < boxes.length) {
+      if (compare(boxes[box1], boxes[box2]) == 1) {
+        return extract(boxes[box1], boxes[box2]);
+      }
+      box2 += 1;
+      if (box1 == box2) {
+        box2 += 1;
+      }
+    }
+    box1 += 1;
+    box2 = 0;
+  }
+}
+
+compare(String one, String two) {
+  int differences = 0;
+  for(int i=0; i<one.length ; i++){
+    if (one[i] != two[i]) {
+      differences += 1;
+    }
+  }
+  return differences;
+}
+
+extract(String one, String two) {
+  String sameString = "";
+  for (int i = 0; i < one.length; i++) {
+    if (one[i] == two[i]) {
+      sameString += one[i];
+    }
+  }
+  return sameString;
+}
