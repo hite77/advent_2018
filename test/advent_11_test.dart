@@ -41,5 +41,21 @@ main() {
     expect(day11(42), [21,61,30]);
   });
 
-  print(day11(3214));
+//  print(day11(3214));
+
+//  For grid serial number 18, the largest total square (with a total power of 113) is 16x16 and has a top-left corner of 90,269, so its identifier is 90,269,16.
+//  For grid serial number 42, the largest total square (with a total power of 119) is 12x12 and has a top-left corner of 232,251, so its identifier is 232,251,12.
+//  takes nearly 3 minutes to solve for these two and the print.
+//  test('part 2 any size square', () {
+//    expect(day11_2(18), [90,269,16,113]);
+//    expect(day11_2(42), [232,251,12,119]);
+//  });
+
+//  List<int> answer = day11_2(3214);
+//  print('Answer day 11 part 2: ['+answer[0].toString()+','+answer[1].toString()+','+answer[2].toString()+']');
+//  print('power:'+answer[3].toString());
+//
+  //result for above: after 740 ms
+//  Answer day 11 part 2: [230,212,13]
+//  power:85
 }
