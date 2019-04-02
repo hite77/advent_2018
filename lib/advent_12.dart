@@ -1,3 +1,5 @@
+import 'dart:io';
+
 count(List<String> generations, int negativeOffset) {
   int counter = 0;
   String line = generations.last;
@@ -58,20 +60,23 @@ solve(String initial, String rulesString) {
 
   initial = returnValue[0];
   negativeOffset= returnValue[1];
-  print(initial);
+//  var file = new File('file.txt');
+//  var sink = file.openWrite();
+//  sink.write(initial+'\n');
   allGenerations.add(initial);
-  for (int generation = 1; generation<= 50000000000; generation++) {
-    List<Object> returnValue = wrapIndots(allGenerations[generation-1], negativeOffset);
-    negativeOffset = returnValue[1];
-    allGenerations.add(solveGeneration(returnValue[0], rules));
-    print(50000000000-generation);
-    print(allGenerations);
-    print(count(allGenerations, negativeOffset));
+  for (int generation = 1; generation<= 200; generation++) {
+//    for (int generation = 1; generation<= 50000000000; generation++) {
+      List<Object> returnValue = wrapIndots(allGenerations[generation-1], negativeOffset);
+      negativeOffset = returnValue[1];
+      allGenerations.add(solveGeneration(returnValue[0], rules));
+//      sink.write(generation.toString()+ allGenerations[generation]+'\n');
+//    print(count(allGenerations, negativeOffset));
 //    print(allGenerations[generation]);
+    }
+    print(negativeOffset);
+//  sink.close();
+    return count(allGenerations, negativeOffset);
   }
-  print(negativeOffset);
-  return count(allGenerations, negativeOffset);
-}
 
 wrapIndots(String allGeneration, int negativeOffset) {
   while (!allGeneration.startsWith('...............')) {

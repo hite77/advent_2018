@@ -36,31 +36,31 @@ String rulesString = """
 #..## => #""";
 
 main() {
-  test('count the #', () {
-    List<String> generations = new List();
-    generations.add('...#..#.#..##......###...###...........');
-    generations.add('...#...#....#.....#..#..#..#...........');
-    generations.add('...##..##...##....#..#..#..##..........');
-    generations.add('..#.#...#..#.#....#..#..#...#..........');
-    generations.add('...#.#..#...#.#...#..#..##..##.........');
-    generations.add('....#...##...#.#..#..#...#...#.........');
-    generations.add('....##.#.#....#...#..##..##..##........');
-    generations.add('...#..###.#...##..#...#...#...#........');
-    generations.add('...#....##.#.#.#..##..##..##..##.......');
-    generations.add('...##..#..#####....#...#...#...#.......');
-    generations.add('..#.#..#...#.##....##..##..##..##......');
-    generations.add('...#...##...#.#...#.#...#...#...#......');
-    generations.add('...##.#.#....#.#...#.#..##..##..##.....');
-    generations.add('..#..###.#....#.#...#....#...#...#.....');
-    generations.add('..#....##.#....#.#..##...##..##..##....');
-    generations.add('..##..#..#.#....#....#..#.#...#...#....');
-    generations.add('.#.#..#...#.#...##...#...#.#..##..##...');
-    generations.add('..#...##...#.#.#.#...##...#....#...#...');
-    generations.add('..##.#.#....#####.#.#.#...##...##..##..');
-    generations.add('.#..###.#..#.#.#######.#.#.#..#.#...#..');
-    generations.add('.#....##....#####...#######....#.#..##.');
-    expect(count(generations, -3), 264);
-  });
+//  test('count the #', () {
+//    List<String> generations = new List();
+//    generations.add('...#..#.#..##......###...###...........');
+//    generations.add('...#...#....#.....#..#..#..#...........');
+//    generations.add('...##..##...##....#..#..#..##..........');
+//    generations.add('..#.#...#..#.#....#..#..#...#..........');
+//    generations.add('...#.#..#...#.#...#..#..##..##.........');
+//    generations.add('....#...##...#.#..#..#...#...#.........');
+//    generations.add('....##.#.#....#...#..##..##..##........');
+//    generations.add('...#..###.#...##..#...#...#...#........');
+//    generations.add('...#....##.#.#.#..##..##..##..##.......');
+//    generations.add('...##..#..#####....#...#...#...#.......');
+//    generations.add('..#.#..#...#.##....##..##..##..##......');
+//    generations.add('...#...##...#.#...#.#...#...#...#......');
+//    generations.add('...##.#.#....#.#...#.#..##..##..##.....');
+//    generations.add('..#..###.#....#.#...#....#...#...#.....');
+//    generations.add('..#....##.#....#.#..##...##..##..##....');
+//    generations.add('..##..#..#.#....#....#..#.#...#...#....');
+//    generations.add('.#.#..#...#.#...##...#...#.#..##..##...');
+//    generations.add('..#...##...#.#.#.#...##...#....#...#...');
+//    generations.add('..##.#.#....#####.#.#.#...##...##..##..');
+//    generations.add('.#..###.#..#.#.#######.#.#.#..#.#...#..');
+//    generations.add('.#....##....#####...#######....#.#..##.');
+//    expect(count(generations, -3), 264);
+//  });
 
   test('rules parsing', () {
     List<List<String>> actual = parseRules(rulesString);
@@ -148,4 +148,66 @@ main() {
 #.#.# => .
 #..## => #""").toString());
 
+  solve2(String initial, String rulesString) {
+    List<List<String>> rules = parseRules(rulesString);
+    int negativeOffset = 0;
+    List<String> allGenerations = new List();
+    List<Object> returnValue = wrapIndots(initial, negativeOffset);
+
+    initial = returnValue[0];
+    negativeOffset= returnValue[1];
+//  var file = new File('file.txt');
+//  var sink = file.openWrite();
+//  sink.write(initial+'\n');
+    allGenerations.add(initial);
+    int lastValue = count(allGenerations,negativeOffset);
+    for (int generation = 1; generation<= 200; generation++) {
+//    for (int generation = 1; generation<= 50000000000; generation++) {
+      List<Object> returnValue = wrapIndots(allGenerations[generation-1], negativeOffset);
+      negativeOffset = returnValue[1];
+      allGenerations.add(solveGeneration(returnValue[0], rules));
+      int nextValue = count(allGenerations,negativeOffset);
+      print('difference:'+(nextValue-lastValue).toString());
+//      sink.write(generation.toString()+ allGenerations[generation]+'\n');
+//    print(count(allGenerations, negativeOffset));
+//    print(allGenerations[generation]);
+    }
+    print(negativeOffset);
+//  sink.close();
+    return count(allGenerations, negativeOffset);
+  }
+
+  print('part2='+solve2('##.#..#.#..#.####.#########.#...#.#.#......##.#.#...##.....#...#...#.##.#...##...#.####.##..#.#..#.', """
+..#.. => .
+..#.# => .
+#.#.. => .
+.#..# => .
+#.... => .
+....# => .
+.#.#. => #
+#.### => .
+####. => .
+..... => .
+.#... => #
+##### => #
+.#### => .
+#..#. => #
+#...# => #
+.###. => .
+###.# => #
+...## => #
+#.##. => #
+.#.## => #
+##.#. => #
+...#. => .
+..### => #
+###.. => #
+##... => .
+..##. => .
+.##.# => .
+##.## => .
+.##.. => .
+##..# => #
+#.#.# => .
+#..## => #""").toString());
 }
